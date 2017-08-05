@@ -83,9 +83,14 @@ int lprintf(log_t *log, unsigned int level, char *fmt, ...)
         chomp(line);
         strcpy(line+strlen(line),"\n");
     }
-    sem_wait(&log->sem); // 日志信号
+    sem_wait(&log->sem);
     rc=write(fd, line, strlen(line));
     sem_post(&log->sem);
+
+    if(!access(LOG_DISABLE_FILE,0)){    
+        printf("%s",line);
+    }
+
     if(!rc){
         errno = 0;
     }

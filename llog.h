@@ -20,6 +20,7 @@
 #define LOG_STDERR  1<<5
 #define LOG_NOTID   1<<6 //No thread id
 #define	LOG_FILE_PATH   "./%s.log"
+#define LOG_DISABLE_FILE "/tmp/showlog"
 #define LOG_MAX	4096000
 
 typedef struct logs{
