@@ -11,7 +11,6 @@ static char llogName[64];
 static pthread_t llogmTid;
 static int stopCmd=0;
 static int runFlag=0;
-static char *TAG="Default";
 static int llogNum=1;
 
 static void *llogManage(void *arg)
@@ -34,7 +33,7 @@ static void *llogManage(void *arg)
                 }
                 llogNum++;                
                 sem_post(&llogFd->sem);
-                LLOGI(TAG,"***************llogNum:%d***************",llogNum);
+                LLOGI(LOG_FILTER_DEFAULT,"***************llogNum:%d***************",llogNum);
             }
         }
         usleep(LOG_MANAGE_PERIOD);
@@ -56,7 +55,7 @@ log_t *llogmStart(const char *fname,int flags,LogManageType type)
     if(NULL==llogFd){
         return llogFd;
     }    
-    LLOGI(TAG,"***************llogNum:%d***************",llogNum);
+    LLOGI(LOG_FILTER_DEFAULT,"***************llogNum:%d***************",llogNum);
     int ret=0;
     switch(type){
         case LogManageType_SIZE:

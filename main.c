@@ -6,6 +6,9 @@
 #define PRT(tag,fmt,arg...) printf("%s-"fmt,tag,##arg)
 
 #define TAG "MYLOG"
+#define TAG_1 "MYLOG_1"
+#define TAG_2 "MYLOG_2"
+#define TAG_3 "MYLOG_3"
 
 int abortSignal=0;
 
@@ -28,6 +31,24 @@ int main(int argc,char **argv)
         LLOGW(TAG,"testdata:%d\n",1234);
         LLOGE(TAG,"testdata:%d\n",1234);
         LLOGF(TAG,"testdata:%d\n",1234);
+
+        LLOGD(TAG_1,"testdata:%d\n",1234);
+        LLOGI(TAG_1,"testdata:%d\n",1234);
+        LLOGW(TAG_1,"testdata:%d\n",1234);
+        LLOGE(TAG_1,"testdata:%d\n",1234);
+        LLOGF(TAG_1,"testdata:%d\n",1234);
+
+        LLOGD(TAG_2,"testdata:%d\n",1234);
+        LLOGI(TAG_2,"testdata:%d\n",1234);
+        LLOGW(TAG_2,"testdata:%d\n",1234);
+        LLOGE(TAG_2,"testdata:%d\n",1234);
+        LLOGF(TAG_2,"testdata:%d\n",1234);
+
+        LLOGD(TAG_3,"testdata:%d\n",1234);
+        LLOGI(TAG_3,"testdata:%d\n",1234);
+        LLOGW(TAG_3,"testdata:%d\n",1234);
+        LLOGE(TAG_3,"testdata:%d\n",1234);
+        LLOGF(TAG_3,"testdata:%d\n",1234);
         num++;
         LLOGI(TAG,"num=%d",num);
         usleep(1000);

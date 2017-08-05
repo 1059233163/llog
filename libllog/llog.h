@@ -21,6 +21,9 @@
 //#define LOG_NOTID   1<<6 //No thread id
 #define	LOG_FILE_PATH   "./%s.log"
 #define LOG_DISABLE_FILE "/tmp/showlog"
+#define LOG_FILTER_FILE "/tmp/logfilter"
+#define LOG_FILTER_DEFAULT "Default"
+#define LOG_FILTER_SIZE 64
 #define LOG_MAX	4096000
 
 typedef struct logs{
@@ -29,7 +32,7 @@ typedef struct logs{
 	int flags;
 }log_t;
 
-int lprintf(log_t *log, unsigned int level, char *fmt, ...);
+int lprintf(log_t *log, unsigned int level, char *tag, char *fmt, ...);
 log_t *log_open(char *fname, int flags);
 void log_close(log_t *log);
 void error_log(char* s,char *filename,int row_num);

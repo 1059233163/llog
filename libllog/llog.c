@@ -29,7 +29,32 @@ static void chomp(char *s)
     }
 }
 
-int lprintf(log_t *log, unsigned int level, char *fmt, ...)
+static int logFilter(const char *tag)
+{
+    if(0==strcmp(tag,LOG_FILTER_DEFAULT)){
+        return 1;
+    }
+    FILE *fp=fopen(LOG_FILTER_FILE,"rt");
+    if(NULL==fp){
+        return 1;
+    }
+    int ret=0;
+    char filterStr[LOG_FILTER_SIZE];
+    while(!feof(fp)){
+        int r=fscanf(fp,"%s",filterStr);
+        if(r<0){
+            break;
+        }
+        if(0==strcmp(tag,filterStr)){
+            ret=1;
+            break;
+        }
+    }
+    fclose(fp);
+    return ret;
+}
+
+int lprintf(log_t *log, unsigned int level, char *tag, char *fmt, ...)
 {
     int fd;
     int rc;
@@ -50,7 +75,9 @@ int lprintf(log_t *log, unsigned int level, char *fmt, ...)
         now = time(NULL);
         strftime(date, sizeof(date), "%Y-%m-%d %H:%M:%S ", localtime(&now));
     }
-
+    if(0==logFilter(tag)){
+        return 0;
+    }
 //    char threadnum[64];
 //    if(!(log->flags & LOG_NOTID)){
 //        sprintf(threadnum, "(TID:%lu) ", pthread_self());
@@ -58,8 +85,8 @@ int lprintf(log_t *log, unsigned int level, char *fmt, ...)
 //    cnt = snprintf(line, sizeof(line), "%s%s%s: ", log->flags & LOG_NODATE ? "": date,
 //                   log->flags & LOG_NOLVL ? "" : (level > FATAL ? levels[0]: levels[level]),log->flags & LOG_NOTID ? "" : threadnum);
 
-    cnt = snprintf(line, sizeof(line), "%s%s: ", log->flags & LOG_NODATE ? "": date,
-                   log->flags & LOG_NOLVL ? "" : (level > FATAL ? levels[0]: levels[level]));
+    cnt = snprintf(line, sizeof(line), "%s%s: (%s): ", log->flags & LOG_NODATE ? "": date,
+                   log->flags & LOG_NOLVL ? "" : (level > FATAL ? levels[0]: levels[level]),tag);
     va_start(ap, fmt);    
     vsnprintf(line + cnt, sizeof(line) - cnt, fmt, ap);
     va_end(ap);    
@@ -67,12 +94,12 @@ int lprintf(log_t *log, unsigned int level, char *fmt, ...)
     if(!(log->flags&LOG_NOLF)){
         chomp(line);
         strcpy(line+strlen(line),"\n");
-    }
+    }    
     sem_wait(&log->sem);
     rc=write(fd, line, strlen(line));
     sem_post(&log->sem);
 
-    if(!access(LOG_DISABLE_FILE,0)){    
+    if(!access(LOG_DISABLE_FILE,0)){
         printf("%s",line);
     }
 
