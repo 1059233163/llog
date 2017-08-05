@@ -1,7 +1,5 @@
+HEADERS+=./libllog/llog.h \
+    libllog/llogm.h
 
-HEADERS += \
-    llog.h
-
-SOURCES += \
-    main.c \
-    llog.c
+SOURCES+=./main.c ./libllog/llog.c \
+    libllog/llogm.c

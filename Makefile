@@ -1,6 +1,6 @@
 #dirs
-INC_DIR=-I./ 
-SRC=$(wildcard ./*.c) 
+INC_DIR=-I./ -I./libllog
+SRC=$(wildcard ./*.c) $(wildcard ./libllog/*.c)
 OBJS=$(SRC:%.c=%.o)
 OBJD=$(SRC:%.c=%.d)
 #compile
@@ -21,5 +21,5 @@ $(OBJS):%.o:%.c
 
 .PHONY:clean
 clean:
-	rm -rf $(OBJS) $(OBJD) 
+	rm -f $(OBJS) $(OBJD) $(TARGET)
 

@@ -137,32 +137,3 @@ void log_close(log_t *log)
     free(log);
     return;
 }
-
-void *LogManage(void *arg)
-{
-    //LogFile=(char *)arg;
-    struct timespec sleeptm;
-    sleeptm.tv_sec=1;
-    sleeptm.tv_nsec=0;
-    struct stat *dBuf;
-    dBuf=(struct stat *)malloc(sizeof(struct stat));
-    while(1){
-        memset(dBuf,0x00,sizeof(struct stat));
-        if(stat(LogFile,dBuf)==0){
-            if(dBuf->st_size>LOG_MAX){
-                sem_wait(&lfd->sem);
-                close(lfd->fd);
-                CreatLogName();
-                lfd->fd=open(LogFile,O_WRONLY|O_CREAT|O_NOCTTY|O_TRUNC,0666);
-                if(lfd->fd==-1){
-                    fprintf(stderr, "LOG: Opening log file %s: %s", LogFile, strerror(errno));
-                    log_close(lfd);
-                    break;
-                }
-                sem_post(&lfd->sem);
-            }
-        }
-        nanosleep(&sleeptm,NULL);
-    }
-    return (void *)1;
-}
