@@ -68,13 +68,15 @@ int lprintf(log_t *log, unsigned int level, char *fmt, ...)
         strftime(date, sizeof(date), "%Y-%m-%d %H:%M:%S ", localtime(&now));
     }
 
-    char threadnum[64];
-    if(!(log->flags & LOG_NOTID)){
-        sprintf(threadnum, "(TID:%lu) ", pthread_self());
-    }
+//    char threadnum[64];
+//    if(!(log->flags & LOG_NOTID)){
+//        sprintf(threadnum, "(TID:%lu) ", pthread_self());
+//    }
+//    cnt = snprintf(line, sizeof(line), "%s%s%s: ", log->flags & LOG_NODATE ? "": date,
+//                   log->flags & LOG_NOLVL ? "" : (level > FATAL ? levels[0]: levels[level]),log->flags & LOG_NOTID ? "" : threadnum);
 
-    cnt = snprintf(line, sizeof(line), "%s%s%s: ", log->flags & LOG_NODATE ? "": date,
-                   log->flags & LOG_NOLVL ? "" : (level > FATAL ? levels[0]: levels[level]),log->flags & LOG_NOTID ? "" : threadnum);
+    cnt = snprintf(line, sizeof(line), "%s%s: ", log->flags & LOG_NODATE ? "": date,
+                   log->flags & LOG_NOLVL ? "" : (level > FATAL ? levels[0]: levels[level]));
     va_start(ap, fmt);    
     vsnprintf(line + cnt, sizeof(line) - cnt, fmt, ap);
     va_end(ap);    
