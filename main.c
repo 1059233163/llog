@@ -20,7 +20,7 @@ int main(int argc,char **argv)
 {
     signal(SIGINT,termSignalHandler);
     PRT(TAG,"main thread start\n");
-    llogmStart("mylog.txt",0);
+    llogmStart("mylog.txt",0,LogManageType_SIZE);
     int num=0;
     while(0==abortSignal){
         LLOGD(TAG,"testdata:%d\n",1234);

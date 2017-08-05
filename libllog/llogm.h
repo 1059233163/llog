@@ -11,7 +11,11 @@ extern log_t* llogFd;
 #define LLOGE(tag,fmt,arg...) lprintf(llogFd,ERROR,"(%s):"fmt,tag,##arg);
 #define LLOGF(tag,fmt,arg...) lprintf(llogFd,FATAL,"(%s):"fmt,tag,##arg);
 
-log_t *llogmStart(const char *fname,int flags);
+typedef enum{
+    LogManageType_SIZE,
+}LogManageType;
+
+log_t *llogmStart(const char *fname,int flags,LogManageType type);
 void llogmStop();
 int isllogmRunning();
 void llogmJoin();

@@ -6,24 +6,7 @@
 #include <string.h>
 #include <malloc.h>
 
-static log_t *lfd;
-static char LogFile[128];
-static char* last_char_is(const char *s, int c);
-
-int CreatLogName(void)
-{
-//    int log_fd;
-    char buf[14] = {0};
-    time_t now=time(NULL) ;
-    strftime(buf, 100, "%Y%m%d%H%M%S", localtime(&now));
-    memset(LogFile,0x00,64);
-    sprintf(LogFile,LOG_FILE_PATH,buf);
-//    log_fd=open(LogFile, O_RDONLY|O_EXCL|O_CREAT, S_IRUSR|S_IWUSR|O_APPEND);
-//    close(log_fd);
-    return 0;
-}
-
-char* last_char_is(const char *s, int c)
+static char* last_char_is(const char *s, int c)
 {
     char *sret;
     if(!s){
@@ -38,7 +21,7 @@ char* last_char_is(const char *s, int c)
     }
 }
 
-void chomp(char *s)
+static void chomp(char *s)
 {
     char *lc=last_char_is(s,'\n');
     if(lc){

@@ -48,16 +48,21 @@ static void *llogManage(void *arg)
     runFlag=0;
 }
 
-log_t *llogmStart(const char *fname,int flags)
+log_t *llogmStart(const char *fname,int flags,LogManageType type)
 {
     memset(llogName,0,sizeof(llogName));
     strcpy(llogName,fname);
-    llogFd=log_open(llogName,0);
+    llogFd=log_open(llogName,flags);
     if(NULL==llogFd){
         return llogFd;
     }    
     LLOGI(TAG,"***************llogNum:%d***************",llogNum);
-    int ret=pthread_create(&llogmTid,NULL,llogManage,NULL);
+    int ret=0;
+    switch(type){
+        case LogManageType_SIZE:
+            ret=pthread_create(&llogmTid,NULL,llogManage,NULL);
+            break;
+    }
     if(ret){
         log_close(llogFd);
         llogFd=NULL;

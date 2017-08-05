@@ -33,6 +33,4 @@ int lprintf(log_t *log, unsigned int level, char *fmt, ...);
 log_t *log_open(char *fname, int flags);
 void log_close(log_t *log);
 void error_log(char* s,char *filename,int row_num);
-int CreatLogName(void);
-void *LogManage(void *arg);
 #endif
