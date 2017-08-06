@@ -74,6 +74,9 @@ int lprintf(log_t *log, unsigned int level, const char *tag, const char *fmt, ..
     if(!log){
         return -1;
     }    
+    if(!access(LOG_NO_FLAG,0)){
+        return 0;
+    }
     if(!(log->flags&LOG_DEBUG)&&level==DEBUG){
         return 0;
     }
@@ -105,7 +108,7 @@ int lprintf(log_t *log, unsigned int level, const char *tag, const char *fmt, ..
     rc=write(fd, line, strlen(line));
     sem_post(&log->sem);
 
-    if(!access(LOG_FILTER_FILE,0)){
+    if(!access(LOG_SHOW_FLAG,0)){
         printf("%s",line);
     }
 

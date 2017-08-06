@@ -2,8 +2,9 @@
 *author:zhaghw
 *date:2017-08-06
 *usages:
-*1.Log does not print on terminal by default,create "/tmp/logfilter" if you want to do.
-*2.TAGs in "/tmp/logfilter" which was seperated by space or endl are TAGs you gave in program.
+*1.Log does not print on terminal by default,create "/tmp/showlog" if you want to do.
+*2.Log does not print on terminal by default,create "/tmp/showlog" if you want to do.
+*3.Log will not output if you create "/tmp/nolog".
 *    eg 1:/tmp/logfilter
 *    MYLOG MYLOG_1 ~MYLOG_2
 *    eg 2:/tmp/logfilter

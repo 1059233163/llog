@@ -6,6 +6,8 @@
 
 #define LOGLINE_MAX 1024
 #define LOG_FILTER_FILE "/tmp/logfilter"
+#define LOG_SHOW_FLAG "/tmp/showlog"
+#define LOG_NO_FLAG "/tmp/nolog"
 #define LOG_FILTER_DEFAULT "Default"
 #define LOG_FILTER_SIZE 64 //TAG MAX SIZE
 
