@@ -5,6 +5,9 @@
 #include <semaphore.h>
 
 #define LOGLINE_MAX 1024
+#define LOG_FILTER_FILE "/tmp/logfilter"
+#define LOG_FILTER_DEFAULT "Default"
+#define LOG_FILTER_SIZE 64 //TAG MAX SIZE
 
 #define DEBUG 1
 #define INFO  2
@@ -17,14 +20,7 @@
 #define LOG_NOLF    1<<2 //not turn to new line automatically
 #define LOG_NOLVL   1<<3 //no level
 #define LOG_DEBUG   1<<4 //enable debug
-#define LOG_STDERR  1<<5
-//#define LOG_NOTID   1<<6 //No thread id
-#define	LOG_FILE_PATH   "./%s.log"
-#define LOG_DISABLE_FILE "/tmp/showlog"
-#define LOG_FILTER_FILE "/tmp/logfilter"
-#define LOG_FILTER_DEFAULT "Default"
-#define LOG_FILTER_SIZE 64
-#define LOG_MAX	4096000
+//#define LOG_STDERR  1<<5
 
 typedef struct logs{
 	int fd;

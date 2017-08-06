@@ -5,6 +5,7 @@
 #include <time.h>
 #include <string.h>
 #include <malloc.h>
+#include <sys/time.h>
 
 static char* last_char_is(const char *s, int c)
 {
@@ -36,7 +37,12 @@ static int logFilter(const char *tag)
     }
     FILE *fp=fopen(LOG_FILTER_FILE,"rt");
     if(NULL==fp){
-        return 1;
+        if('~'==tag[0]){
+            return 0;
+        }
+        else{
+            return 1;
+        }
     }
     int ret=0;
     char filterStr[LOG_FILTER_SIZE];
@@ -60,7 +66,7 @@ int lprintf(log_t *log, unsigned int level, char *tag, char *fmt, ...)
     int rc;
     va_list ap;
     time_t now;
-    char date[32] = {0};
+    char date[25] = {0};
     static char line[LOGLINE_MAX];
     int cnt;
     static char *levels[6] = { "[(bad)] ", "[debug] ", "[info]  ", "[warn]  ", "[error] ", "[fatal] " };
@@ -72,18 +78,17 @@ int lprintf(log_t *log, unsigned int level, char *tag, char *fmt, ...)
     }
     fd = log->fd;    
     if(!(log->flags&LOG_NODATE)){
-        now = time(NULL);
-        strftime(date, sizeof(date), "%Y-%m-%d %H:%M:%S ", localtime(&now));
+        struct timeval tv;
+        gettimeofday(&tv,NULL);
+        now=tv.tv_sec;
+        strftime(date, sizeof(date), "%Y-%m-%d %H:%M:%S", localtime(&now));
+        char strUsec[5];
+        sprintf(strUsec,".%lld ",tv.tv_usec/1000);
+        strcat(date,strUsec);
     }
     if(0==logFilter(tag)){
         return 0;
     }
-//    char threadnum[64];
-//    if(!(log->flags & LOG_NOTID)){
-//        sprintf(threadnum, "(TID:%lu) ", pthread_self());
-//    }
-//    cnt = snprintf(line, sizeof(line), "%s%s%s: ", log->flags & LOG_NODATE ? "": date,
-//                   log->flags & LOG_NOLVL ? "" : (level > FATAL ? levels[0]: levels[level]),log->flags & LOG_NOTID ? "" : threadnum);
 
     cnt = snprintf(line, sizeof(line), "%s%s: (%s): ", log->flags & LOG_NODATE ? "": date,
                    log->flags & LOG_NOLVL ? "" : (level > FATAL ? levels[0]: levels[level]),tag);
@@ -99,7 +104,7 @@ int lprintf(log_t *log, unsigned int level, char *tag, char *fmt, ...)
     rc=write(fd, line, strlen(line));
     sem_post(&log->sem);
 
-    if(!access(LOG_DISABLE_FILE,0)){
+    if(!access(LOG_FILTER_FILE,0)){
         printf("%s",line);
     }
 

@@ -9,6 +9,7 @@
 #define TAG_1 "MYLOG_1"
 #define TAG_2 "MYLOG_2"
 #define TAG_3 "MYLOG_3"
+#define TAG_4 "~MYLOG_4"
 
 int abortSignal=0;
 
@@ -49,6 +50,12 @@ int main(int argc,char **argv)
         LLOGW(TAG_3,"testdata:%d\n",1234);
         LLOGE(TAG_3,"testdata:%d\n",1234);
         LLOGF(TAG_3,"testdata:%d\n",1234);
+
+        LLOGD(TAG_4,"testdata:%d\n",1234);
+        LLOGI(TAG_4,"testdata:%d\n",1234);
+        LLOGW(TAG_4,"testdata:%d\n",1234);
+        LLOGE(TAG_4,"testdata:%d\n",1234);
+        LLOGF(TAG_4,"testdata:%d\n",1234);
         num++;
         LLOGI(TAG,"num=%d",num);
         usleep(1000);
