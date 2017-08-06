@@ -87,7 +87,7 @@ int lprintf(log_t *log, unsigned int level, const char *tag, const char *fmt, ..
         now=tv.tv_sec;
         strftime(date, sizeof(date), "%Y-%m-%d %H:%M:%S", localtime(&now));
         char strUsec[5];
-        sprintf(strUsec,".%ld ",tv.tv_usec/1000);
+        sprintf(strUsec,".%-3ld ",tv.tv_usec/1000);
         strcat(date,strUsec);
     }
     if(0==logFilter(tag)){
