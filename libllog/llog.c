@@ -6,6 +6,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 static char* last_char_is(const char *s, int c)
 {
@@ -60,7 +61,7 @@ static int logFilter(const char *tag)
     return ret;
 }
 
-int lprintf(log_t *log, unsigned int level, char *tag, char *fmt, ...)
+int lprintf(log_t *log, unsigned int level, const char *tag, const char *fmt, ...)
 {
     int fd;
     int rc;

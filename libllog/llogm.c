@@ -45,6 +45,7 @@ static void *llogManage(void *arg)
     printf("[%s-%d]:llogManage exit,llogName:%s\n",__func__,__LINE__,llogName);
     llogNum=0;
     runFlag=0;
+    return (void*)0;
 }
 
 log_t *llogmStart(const char *fname,int flags,LogManageType type)
