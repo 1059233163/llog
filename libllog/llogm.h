@@ -19,15 +19,16 @@
 #include "llog.h"
 
 extern log_t* llogFd;
+extern char defaultTag[LOG_FILTER_SIZE];
 
 #define LOG_MAX_SZIE 1024*1024
 #define LOG_MANAGE_PERIOD 100000
 
-#define LLOGD(tag,fmt,arg...) lprintf(llogFd,DEBUG,tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
-#define LLOGI(tag,fmt,arg...) lprintf(llogFd,INFO ,tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
-#define LLOGW(tag,fmt,arg...) lprintf(llogFd,WARN ,tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
-#define LLOGE(tag,fmt,arg...) lprintf(llogFd,ERROR,tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
-#define LLOGF(tag,fmt,arg...) lprintf(llogFd,FATAL,tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
+#define LLOGD(tag,fmt,arg...) lprintf(llogFd,DEBUG,tag==NULL?defaultTag:tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
+#define LLOGI(tag,fmt,arg...) lprintf(llogFd,INFO ,tag==NULL?defaultTag:tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
+#define LLOGW(tag,fmt,arg...) lprintf(llogFd,WARN ,tag==NULL?defaultTag:tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
+#define LLOGE(tag,fmt,arg...) lprintf(llogFd,ERROR,tag==NULL?defaultTag:tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
+#define LLOGF(tag,fmt,arg...) lprintf(llogFd,FATAL,tag==NULL?defaultTag:tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
 
 typedef enum{
     LogManageType_SIZE,
@@ -38,6 +39,7 @@ extern "C"{
 #endif
 
 log_t *llogmStart(const char *fname,int flags,LogManageType type);
+void llogmSetDefaultTag(const char *tag);
 void llogmStop();
 int isllogmRunning();
 void llogmJoin();

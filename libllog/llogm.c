@@ -7,6 +7,8 @@
 #include <pthread.h>
 
 log_t* llogFd=NULL;
+char defaultTag[LOG_FILTER_SIZE]="NULL";
+
 static char llogName[64];
 static pthread_t llogmTid;
 static int stopCmd=0;
@@ -69,6 +71,11 @@ log_t *llogmStart(const char *fname,int flags,LogManageType type)
         return llogFd;
     }    
     return llogFd;
+}
+
+void llogmSetDefaultTag(const char *tag)
+{
+    strcpy(defaultTag,tag);
 }
 
 void llogmStop()

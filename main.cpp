@@ -26,6 +26,7 @@ int main(int argc,char **argv)
     signal(SIGINT,termSignalHandler);
     PRT(TAG,"main thread start\n");
     llogmStart("mylog.txt",0,LogManageType_SIZE);
+    llogmSetDefaultTag(argv[0]);
     int num=0;
     while(0==abortSignal){
         LLOGD(TAG,"testdata:%d\n",1234);
@@ -57,6 +58,12 @@ int main(int argc,char **argv)
         LLOGW(TAG_4,"testdata:%d\n",1234);
         LLOGE(TAG_4,"testdata:%d\n",1234);
         LLOGF(TAG_4,"testdata:%d\n",1234);
+
+        LLOGD(NULL,"testdata:%d\n",1234);
+        LLOGI(NULL,"testdata:%d\n",1234);
+        LLOGW(NULL,"testdata:%d\n",1234);
+        LLOGE(NULL,"testdata:%d\n",1234);
+        LLOGF(NULL,"testdata:%d\n",1234);
         num++;
         LLOGI(TAG,"num=%d",num);
         usleep(1000);
