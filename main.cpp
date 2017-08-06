@@ -2,6 +2,7 @@
 #include "llogm.h"
 #include <signal.h>
 #include <pthread.h>
+#include <unistd.h>
 
 #define PRT(tag,fmt,arg...) printf("%s-"fmt,tag,##arg)
 

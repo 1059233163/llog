@@ -1,5 +1,5 @@
-#ifndef LOG_H_
-#define LOG_H_
+#ifndef __LLOG_H
+#define __LLOG_H
 
 #include <stdio.h>
 #include <semaphore.h>
@@ -28,8 +28,15 @@ typedef struct logs{
 	int flags;
 }log_t;
 
+#ifdef __cplusplus
+extern "C"{
+#endif
 int lprintf(log_t *log, unsigned int level, char *tag, char *fmt, ...);
 log_t *log_open(char *fname, int flags);
 void log_close(log_t *log);
 void error_log(char* s,char *filename,int row_num);
+#ifdef __cplusplus
+}
+#endif
+
 #endif
