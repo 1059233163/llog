@@ -14,6 +14,7 @@ static pthread_t llogmTid;
 static int stopCmd=0;
 static int runFlag=0;
 static int llogNum=1;
+static unsigned long long int logMaxSize=LOG_DEFAULT_MAX_SZIE;
 
 static void *llogManage(void *arg)
 {
@@ -22,8 +23,8 @@ static void *llogManage(void *arg)
     memset(&fileStat,0x00,sizeof(struct stat));
     while(0==stopCmd){
         if(0==stat(llogName,&fileStat)){            
-            if(fileStat.st_size>LOG_MAX_SZIE){
-                printf("[%s-%d]:%s too large ,recreate times:%d\n",__func__,__LINE__,llogName,llogNum);
+            if(fileStat.st_size>logMaxSize){
+                printf("[%s-%d]:%s too large(%llu byte) ,recreate times:%d\n",__func__,__LINE__,llogName,fileStat.st_size,llogNum);
                 sem_wait(&llogFd->sem);
                 close(llogFd->fd);
                 remove(llogName);
@@ -92,4 +93,9 @@ int isllogmRunning()
 void llogmJoin()
 {
     pthread_join(llogmTid,NULL);
+}
+
+void llogmSetMaxSize(unsigned long long int size)
+{
+    logMaxSize=size;
 }

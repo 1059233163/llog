@@ -23,7 +23,7 @@
 extern log_t* llogFd;
 extern char defaultTag[LOG_FILTER_SIZE];
 
-#define LOG_MAX_SZIE 1024*1024
+#define LOG_DEFAULT_MAX_SZIE 1024*1024
 #define LOG_MANAGE_PERIOD 100000
 
 #define LLOGD(tag,fmt,arg...) lprintf(llogFd,DEBUG,tag==NULL?defaultTag:tag,"[%s-%d]: "fmt,__func__,__LINE__,##arg);
@@ -42,6 +42,7 @@ extern "C"{
 
 log_t *llogmStart(const char *fname,int flags,LogManageType type);
 void llogmSetDefaultTag(const char *tag);
+void llogmSetMaxSize(unsigned long long int size);
 void llogmStop();
 int isllogmRunning();
 void llogmJoin();
