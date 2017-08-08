@@ -1,17 +1,19 @@
 /*
 *author:zhaghw
-*date:2017-08-06
+*date:2017-08-08
 *usages:
 *1.Log does not print on terminal by default,create "/tmp/showlog" if you want to do.
-*2.Log does not print on terminal by default,create "/tmp/showlog" if you want to do.
-*3.Log will not output if you create "/tmp/nolog".
+*2.Log will not output if you create "/tmp/nolog".
+*3."app.log" will not output if you create "/tmp/nolog-app.log".
+*4.All log except which started by '~' will output if "/tmp/logfilter" is not exist.
+*5.The log which was written on "/tmp/logfilter" will be output.
+*6.Log does not output if TAG started by '~' and is not exist in "/tmp/logfilter".
 *    eg 1:/tmp/logfilter
 *    MYLOG MYLOG_1 ~MYLOG_2
 *    eg 2:/tmp/logfilter
 *    MYLOG
 *    MYLOG_1
 *    ~MYLOG_2
-*3.Log does not output if TAG started by '~' and is not exist in "/tmp/logfilter".
 */
 #ifndef __LLOGM_H
 #define __LLOGM_H

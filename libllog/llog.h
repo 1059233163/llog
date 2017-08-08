@@ -10,6 +10,7 @@
 #define LOG_NO_FLAG "/tmp/nolog"
 #define LOG_FILTER_DEFAULT "Default"
 #define LOG_FILTER_SIZE 64 //TAG MAX SIZE
+#define LOG_NAME_MAXSIZE 64
 
 #define DEBUG 1
 #define INFO  2
@@ -28,6 +29,7 @@ typedef struct logs{
 	int fd;
 	sem_t sem;
 	int flags;
+        char name[LOG_NAME_MAXSIZE];
 }log_t;
 
 #ifdef __cplusplus

@@ -33,6 +33,7 @@ static void *llogManage(void *arg)
                     log_close(llogFd);
                     break;
                 }
+                strcpy(llogFd->name,llogName);
                 llogNum++;                
                 sem_post(&llogFd->sem);
                 LLOGI(LOG_FILTER_DEFAULT,"***************llogNum:%d***************",llogNum);

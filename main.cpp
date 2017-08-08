@@ -25,7 +25,7 @@ int main(int argc,char **argv)
 {
     signal(SIGINT,termSignalHandler);
     PRT(TAG,"main thread start\n");
-    llogmStart("mylog.txt",0,LogManageType_SIZE);
+    llogmStart("./mylog.txt",0,LogManageType_SIZE);
     llogmSetDefaultTag(argv[0]);
     int num=0;
     while(0==abortSignal){

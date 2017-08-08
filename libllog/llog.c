@@ -77,6 +77,19 @@ int lprintf(log_t *log, unsigned int level, const char *tag, const char *fmt, ..
     if(!access(LOG_NO_FLAG,0)){
         return 0;
     }
+    {
+        char nologName[LOG_NAME_MAXSIZE+24];
+        char *pureLogName=strrchr(log->name,'/');
+        if(NULL==pureLogName){
+            sprintf(nologName,"%s-%s",LOG_NO_FLAG,log->name);
+        }
+        else{
+            sprintf(nologName,"%s-%s",LOG_NO_FLAG,pureLogName+1);
+        }
+        if(!access(nologName,0)){
+            return 0;
+        }
+    }
     if(!(log->flags&LOG_DEBUG)&&level==DEBUG){
         return 0;
     }
@@ -136,6 +149,7 @@ log_t *log_open(char *fname, int flags)
         fprintf(stderr, "LOG: Opening logfile %s: %s", fname, strerror(errno));
         goto log_open_b;
     }
+    strcpy(log->name,fname);
     write(log->fd,"\n",1);
     if(sem_init(&log->sem,0,1)==-1){
         fprintf(stderr, "LOG: Could not initialize log semaphore.");
